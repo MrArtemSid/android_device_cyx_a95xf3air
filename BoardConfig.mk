@@ -40,5 +40,3 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 ## Include the common tree BoardConfig makefile
 include device/amlogic/g12-common/BoardConfigCommon.mk
 
-## Include the proprietary BoardConfig makefile
-include vendor/amlogic/kvim3l/BoardConfigVendor.mk
