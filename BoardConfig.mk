@@ -4,19 +4,19 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/radxa/radxa0
+DEVICE_PATH := device/khadas/kvim3l
 
 ## Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth/include
-BOARD_CUSTOM_BT_CONFIG := $(DEVICE_PATH)/bluetooth/vnd_radxa0.txt
+BOARD_CUSTOM_BT_CONFIG := $(DEVICE_PATH)/bluetooth/vnd_kvim3l.txt
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
 ## Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := radxa0
+TARGET_BOOTLOADER_BOARD_NAME := kvim3l
 
 ## DTB
-TARGET_DTB_NAME := g12a_s905y2_radxa0
+TARGET_DTB_NAME := kvim3l
 
 ## Kernel modules
 TARGET_KERNEL_EXT_MODULES := \
@@ -41,4 +41,4 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 include device/amlogic/g12-common/BoardConfigCommon.mk
 
 ## Include the proprietary BoardConfig makefile
-include vendor/amlogic/radxa0/BoardConfigVendor.mk
+include vendor/amlogic/kvim3l/BoardConfigVendor.mk

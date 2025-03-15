@@ -6,7 +6,7 @@
 
 ## Bluetooth
 PRODUCT_PACKAGES += \
-    RadxaZeroBluetoothOverlay \
+    Kvim3lBluetoothOverlay \
     libbt-vendor
 
 ## Bluetooth firmware
@@ -30,4 +30,4 @@ include kernel/amlogic/kernel-modules/dhd-driver/firmware/wifi/wifi.mk
 $(call inherit-product, device/amlogic/g12-common/g12.mk)
 
 ## Inherit from the proprietary files makefile
-$(call inherit-product, vendor/amlogic/radxa0/radxa0-vendor.mk)
+$(call inherit-product, vendor/amlogic/kvim3l/kvim3l-vendor.mk)

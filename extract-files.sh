@@ -14,10 +14,10 @@ fi
 
 set -e
 
-export DEVICE=radxa0
+export DEVICE=kvim3l
 export DEVICE_COMMON=g12-common
 export VENDOR=amlogic
-export VENDOR_BRAND=radxa
+export VENDOR_BRAND=khadas
 export VENDOR_COMMON=amlogic
 
 "./../../${VENDOR_COMMON}/${DEVICE_COMMON}/extract-files.sh" "$@"

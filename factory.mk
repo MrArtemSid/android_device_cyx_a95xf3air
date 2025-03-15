@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FACTORY_PATH := device/radxa/radxa0/factory
+FACTORY_PATH := device/khadas/kvim3l/factory
 
 PRODUCT_INSTALL_OUT := $(PRODUCT_OUT)/aml_install
 PRODUCT_UPGRADE_OUT := $(PRODUCT_OUT)/aml_upgrade
@@ -57,9 +57,9 @@ $(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_I
 ifneq ("$(wildcard $(FACTORY_PATH)/u-boot.bin)","")
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/u-boot.bin)
 else ifeq ($(WITH_CONSOLE_BL),true)
-	$(hide) $(call aml-copy-install-file, vendor/amlogic/radxa0/radio/bootloader-console.img, u-boot.bin)
-else ifneq ("$(wildcard vendor/amlogic/radxa0/radio/bootloader.img)","")
-	$(hide) $(call aml-copy-install-file, vendor/amlogic/radxa0/radio/bootloader.img, u-boot.bin)
+	$(hide) $(call aml-copy-install-file, vendor/amlogic/kvim3l/radio/bootloader-console.img, u-boot.bin)
+else ifneq ("$(wildcard vendor/amlogic/kvim3l/radio/bootloader.img)","")
+	$(hide) $(call aml-copy-install-file, vendor/amlogic/kvim3l/radio/bootloader.img, u-boot.bin)
 else
 	$(error "no u-boot.bin found in $(FACTORY_PATH)")
 endif
@@ -88,9 +88,9 @@ $(INSTALLED_AML_UPGRADE_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(UPGRADE_I
 ifneq ("$(wildcard $(FACTORY_PATH)/u-boot.bin)","")
 	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/u-boot.bin)
 else ifeq ($(WITH_CONSOLE_BL),true)
-	$(hide) $(call aml-copy-install-file, vendor/amlogic/radxa0/radio/bootloader-console.img, u-boot.bin)
-else ifneq ("$(wildcard vendor/amlogic/radxa0/radio/bootloader.img)","")
-	$(hide) $(call aml-copy-upgrade-file, vendor/amlogic/radxa0/radio/bootloader.img, u-boot.bin)
+	$(hide) $(call aml-copy-install-file, vendor/amlogic/kvim3l/radio/bootloader-console.img, u-boot.bin)
+else ifneq ("$(wildcard vendor/amlogic/kvim3l/radio/bootloader.img)","")
+	$(hide) $(call aml-copy-upgrade-file, vendor/amlogic/kvim3l/radio/bootloader.img, u-boot.bin)
 else
 	$(error "no u-boot.bin found in $(FACTORY_PATH)")
 endif
