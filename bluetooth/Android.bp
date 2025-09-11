@@ -1,0 +1,4 @@
+filegroup {
+    name: "vnd_kvim3l.txt",
+    srcs: ["vnd_kvim3l.txt"],
+}
