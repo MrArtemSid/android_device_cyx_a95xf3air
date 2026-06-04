@@ -1,0 +1,14 @@
+cc_library_static {
+    name: "librecovery_ui_kvim3l",
+    owner: "khadas",
+    srcs: [
+        "recovery_ui.cpp",
+    ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+    static_libs: [
+        "librecovery_ui",
+    ],
+}

@@ -28,6 +28,13 @@ BOARD_SUPER_PARTITION_SIZE := 2084569088
 ## Properties
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 
+## Recovery
+# Define the custom recovery UI static library
+TARGET_RECOVERY_UI_LIB := librecovery_ui_kvim3l
+
+# Ensure the module is built alongside recovery
+TARGET_RECOVERY_DEVICE_MODULES += librecovery_ui_kvim3l
+
 ## Wi-Fi
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_bcmdhd
 BOARD_WLAN_DEVICE := bcmdhd
