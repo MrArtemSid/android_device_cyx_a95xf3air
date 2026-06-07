@@ -15,9 +15,6 @@ TARGET_BOOTLOADER_BOARD_NAME := kvim3l
 ## DTB
 TARGET_DTB_NAME := kvim3l
 
-# Kernel config
-TARGET_KERNEL_VARIANT_CONFIG := kvim_variant_defconfig
-
 ## Kernel modules
 TARGET_KERNEL_EXT_MODULES := \
     dhd-driver/bcmdhd.101.10.361.x
