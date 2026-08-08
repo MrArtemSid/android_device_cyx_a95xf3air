@@ -1,0 +1,5 @@
+## Wifi - installed under the firmware_class search path (/vendor/lib/firmware/)
+## set by init.amlogic.media.rc, so dhd's firmware_path=/wifi/ resolves.
+# from lineage 22.2 kernel 4.9 modules
+vendor/firmware/wifi/fw_bcm4359c0_ag.bin:vendor/lib/firmware/wifi/fw_bcm4359c0_ag.bin
+vendor/firmware/wifi/nvram_ap6398s.txt:vendor/lib/firmware/wifi/nvram_ap6398s.txt
