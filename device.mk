@@ -35,6 +35,3 @@ PRODUCT_SOONG_NAMESPACES += \
 
 ## Inherit from the common tree product makefile
 $(call inherit-product, device/amlogic/g12-common/g12.mk)
-
-## Inherit from the proprietary files makefile
-$(call inherit-product, vendor/cyx/a95xf3air/a95xf3air-vendor.mk)
