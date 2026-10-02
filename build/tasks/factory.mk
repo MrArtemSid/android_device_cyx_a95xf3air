@@ -45,8 +45,6 @@ UPGRADE_IMAGES := \
     recovery.img \
     dtbo.img \
     vbmeta.img \
-    super.img \
-    super_empty.img \
     logo.img
 
 INSTALL_IMAGES := \
@@ -54,12 +52,36 @@ INSTALL_IMAGES := \
     recovery.img \
     dtbo.img \
     vbmeta.img \
-    super.img \
-    super_empty.img \
     logo.img \
     misc.img
 
-$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(ACP) $(AML_IMAGE_TOOL)
+# Dynamic partitions are retrofitted, so there is no super.img: build the
+# split images (super_<device>.img) for the physical partitions instead.
+AML_SUPER_SPLIT_OUT := $(call intermediates-dir-for,PACKAGING,aml_super_split)
+AML_SUPER_SPLIT_INFO := $(AML_SUPER_SPLIT_OUT)/misc_info.txt
+AML_SUPER_SPLIT_STAMP := $(AML_SUPER_SPLIT_OUT)/images.stamp
+AML_SUPER_SPLIT_IMAGES := $(foreach d,$(BOARD_SUPER_PARTITION_BLOCK_DEVICES),$(AML_SUPER_SPLIT_OUT)/images/super_$(d).img)
+
+$(AML_SUPER_SPLIT_STAMP): $(LPMAKE) $(BUILD_SUPER_IMAGE) \
+    $(foreach p,$(BOARD_SUPER_PARTITION_PARTITION_LIST),$(INSTALLED_$(call to-upper,$(p))IMAGE_TARGET))
+	$(hide) rm -rf $(AML_SUPER_SPLIT_OUT)
+	$(hide) mkdir -p $(AML_SUPER_SPLIT_OUT)/images
+	$(call dump-super-image-info,$(AML_SUPER_SPLIT_INFO))
+	$(foreach p,$(BOARD_SUPER_PARTITION_PARTITION_LIST), \
+	    echo "$(p)_image=$(INSTALLED_$(call to-upper,$(p))IMAGE_TARGET)" >> $(AML_SUPER_SPLIT_INFO);)
+	PATH=$(dir $(LPMAKE)):$$PATH \
+	    $(BUILD_SUPER_IMAGE) -v $(AML_SUPER_SPLIT_INFO) $(AML_SUPER_SPLIT_OUT)/images
+	$(hide) touch $@
+
+$(AML_SUPER_SPLIT_IMAGES): $(AML_SUPER_SPLIT_STAMP)
+
+# $(1): output directory
+define aml-copy-super-split-files
+	$(hide) $(foreach d,$(BOARD_SUPER_PARTITION_BLOCK_DEVICES), \
+	    $(ACP) $(AML_SUPER_SPLIT_OUT)/images/super_$(d).img $(1)/$(d).img &&) true
+endef
+
+$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(ACP) $(AML_IMAGE_TOOL)
 	$(hide) mkdir -p $(PRODUCT_INSTALL_OUT)
 ifeq ($(WITH_CONSOLE_BL),true)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/bootloader-console.img, u-boot.bin)
@@ -74,7 +96,7 @@ endif
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/recovery.img)
 	$(hide) $(call aml-copy-install-file, $(INSTALLED_2NDBOOTLOADER_TARGET), dtb.img)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/dtbo.img)
-	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/super_empty.img, super.img)
+	$(call aml-copy-super-split-files,$(PRODUCT_INSTALL_OUT))
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/vbmeta.img)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/misc.img)
 	$(hide) $(AML_IMAGE_TOOL) -r  $(PRODUCT_INSTALL_OUT)/image.cfg $(PRODUCT_INSTALL_OUT)/ $@
@@ -94,7 +116,7 @@ $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/aml_install_package.img: $(BUILT_TARGET_FIL
 
 INSTALLED_RADIOIMAGE_TARGET += $(INSTALLED_AML_INSTALL_PACKAGE_TARGET)
 
-$(INSTALLED_AML_UPGRADE_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(UPGRADE_IMAGES)) $(ACP) $(AML_IMAGE_TOOL)
+$(INSTALLED_AML_UPGRADE_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(UPGRADE_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(ACP) $(AML_IMAGE_TOOL)
 	$(hide) mkdir -p $(PRODUCT_UPGRADE_OUT)
 ifeq ($(WITH_CONSOLE_BL),true)
 	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/bootloader-console.img, u-boot.bin)
@@ -109,7 +131,7 @@ endif
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/recovery.img)
 	$(hide) $(call aml-copy-upgrade-file, $(INSTALLED_2NDBOOTLOADER_TARGET), dtb.img)
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/dtbo.img)
-	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/super.img)
+	$(call aml-copy-super-split-files,$(PRODUCT_UPGRADE_OUT))
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/vbmeta.img)
 	$(hide) $(AML_IMAGE_TOOL) -r  $(PRODUCT_UPGRADE_OUT)/image.cfg $(PRODUCT_UPGRADE_OUT)/ $@
 	$(hide) rm -rf $(PRODUCT_UPGRADE_OUT)
