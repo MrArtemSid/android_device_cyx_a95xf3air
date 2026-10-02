@@ -1,0 +1,23 @@
+# Load the A95X F3 Air remote tables into the IR driver, mainly for the
+# mouse mode (fn key and cursor scancodes), which the DTB maps cannot set.
+# g12-common already uses remotecfg1-3 for its own tables.
+
+on boot
+    # The 5.15 IR driver names its node amremote0, remotecfg opens /dev/amremote
+    symlink /dev/amremote0 /dev/amremote
+    restorecon /dev/amremote
+
+service vendor.remotecfg_a95x /vendor/bin/remotecfg -c /vendor/etc/remote.cfg -t /vendor/etc/remote-0xdf00.tab -d
+    class main
+    oneshot
+    seclabel u:r:remotecfg:s0
+
+service vendor.remotecfg_cs918 /vendor/bin/remotecfg -c /vendor/etc/remote.cfg -t /vendor/etc/remote-0x4040.tab -d
+    class main
+    oneshot
+    seclabel u:r:remotecfg:s0
+
+service vendor.remotecfg_pp /vendor/bin/remotecfg -c /vendor/etc/remote.cfg -t /vendor/etc/remote-0x7f80.tab -d
+    class main
+    oneshot
+    seclabel u:r:remotecfg:s0

@@ -29,6 +29,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/Vendor_0001_Product_0001.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Vendor_0001_Product_0001.kl
 
+## Remote (IR mouse mode)
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/init-files/init.remote.a95xf3air.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.remote.a95xf3air.rc \
+    $(foreach f,remote-0xdf00.tab remote-0x4040.tab remote-0x7f80.tab, \
+        $(LOCAL_PATH)/remote/$(f):$(TARGET_COPY_OUT_VENDOR)/etc/$(f))
+
 
 ## OpenVFD
 # Lineage keeps Soong out of kernel/platform; OpenVFDService lives next to the
