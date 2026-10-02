@@ -19,7 +19,6 @@ BOARD_KERNEL_SEPARATED_DTBO := true
 
 ## Kernel
 TARGET_KERNEL_PLATFORM_TARGET := a95xf3air
-TARGET_KERNEL_SOURCE := vendor/cyx/a95xf3air-build
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/vendor_dlkm.modules.load))
 BOOT_KERNEL_MODULES := $(strip $(shell cat $(DEVICE_PATH)/vendor_boot.modules.load))
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(BOOT_KERNEL_MODULES)
@@ -62,3 +61,9 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 ## Include the common tree BoardConfig makefile
 include device/amlogic/g12-common/BoardConfigCommon.mk
+
+## Kernel
+# g12-common points TARGET_KERNEL_SOURCE at its 4.9 kernel, so set the
+# 5.15 platform build only after including it.
+TARGET_KERNEL_VERSION := 5.15
+TARGET_KERNEL_SOURCE := vendor/cyx/a95xf3air-build
