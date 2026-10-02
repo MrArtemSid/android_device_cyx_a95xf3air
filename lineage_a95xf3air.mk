@@ -17,15 +17,15 @@ $(call inherit-product, vendor/lineage/config/common_full_tv.mk)
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
 
 ## Device identifier. This must come after all inclusions
-PRODUCT_BRAND := Khadas
-PRODUCT_DEVICE := kvim3l
-PRODUCT_MANUFACTURER := khadas
-PRODUCT_MODEL := VIM 3L
-PRODUCT_NAME := lineage_kvim3l
+PRODUCT_BRAND := A95X
+PRODUCT_DEVICE := a95xf3air
+PRODUCT_MANUFACTURER := cyx
+PRODUCT_MODEL := F3 Air
+PRODUCT_NAME := lineage_a95xf3air
 
 PRODUCT_GMS_CLIENTID_BASE := android-droid-tv
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     BuildDesc="adt3-user 13 TTT1.230205.001 9565391 release-keys" \
     BuildFingerprint=ADT-3/adt3/adt3:13/TTT1.230205.001/9565391:user/release-keys \
-    SystemName=kvim3l
+    SystemName=a95xf3air

@@ -4,7 +4,7 @@
     "target_path": "device/amlogic/g12-common"
   },
   {
-    "repository": "android_kernel_amlogic_kvim3l-build",
-    "target_path": "kernel/platform/kernel-5.15/vendor/amlogic/kvim3l-build"
+    "repository": "android_kernel_cyx_a95xf3air-build",
+    "target_path": "kernel/platform/kernel-5.15/vendor/cyx/a95xf3air-build"
   }
 ]

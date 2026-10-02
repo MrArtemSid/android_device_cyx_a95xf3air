@@ -4,22 +4,22 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/khadas/kvim3l
+DEVICE_PATH := device/cyx/a95xf3air
 
 ## Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 
 ## Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := kvim3l
+TARGET_BOOTLOADER_BOARD_NAME := a95xf3air
 
 ## DTB
-TARGET_DTB_NAME := kvim3l
+TARGET_DTB_NAME := a95xf3air
 TARGET_DTBO_NAME := android_overlay_dt
 BOARD_KERNEL_SEPARATED_DTBO := true
 
 ## Kernel
-TARGET_KERNEL_PLATFORM_TARGET := kvim3l
-TARGET_KERNEL_SOURCE := vendor/khadas/kvim3l-build
+TARGET_KERNEL_PLATFORM_TARGET := a95xf3air
+TARGET_KERNEL_SOURCE := vendor/cyx/a95xf3air-build
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/vendor_dlkm.modules.load))
 BOOT_KERNEL_MODULES := $(strip $(shell cat $(DEVICE_PATH)/vendor_boot.modules.load))
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(BOOT_KERNEL_MODULES)
@@ -35,10 +35,10 @@ TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 
 ## Recovery
 # Define the custom recovery UI static library
-TARGET_RECOVERY_UI_LIB := librecovery_ui_kvim3l
+TARGET_RECOVERY_UI_LIB := librecovery_ui_a95xf3air
 
 # Ensure the module is built alongside recovery
-TARGET_RECOVERY_DEVICE_MODULES += librecovery_ui_kvim3l
+TARGET_RECOVERY_DEVICE_MODULES += librecovery_ui_a95xf3air
 
 ## Wi-Fi
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_bcmdhd
@@ -53,4 +53,4 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 include device/amlogic/g12-common/BoardConfigCommon.mk
 
 ## Include the proprietary BoardConfig makefile
-include vendor/khadas/kvim3l/BoardConfigVendor.mk
+include vendor/cyx/a95xf3air/BoardConfigVendor.mk

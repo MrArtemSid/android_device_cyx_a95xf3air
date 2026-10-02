@@ -6,11 +6,11 @@
 
 ## Bluetooth
 PRODUCT_PACKAGES += \
-    Kvim3lBluetoothOverlay \
+    A95xf3airBluetoothOverlay \
     libbt-vendor
 
 $(call soong_config_set,brcm_libbt,bdroid_buildcfg_include_dir,$(LOCAL_PATH)/bluetooth/include)
-$(call soong_config_set,brcm_libbt,custom_bt_config,//$(LOCAL_PATH):vnd_kvim3l.txt)
+$(call soong_config_set,brcm_libbt,custom_bt_config,//$(LOCAL_PATH):vnd_a95xf3air.txt)
 
 ## Factory
 PRODUCT_HOST_PACKAGES += \
@@ -37,4 +37,4 @@ PRODUCT_SOONG_NAMESPACES += \
 $(call inherit-product, device/amlogic/g12-common/g12.mk)
 
 ## Inherit from the proprietary files makefile
-$(call inherit-product, vendor/khadas/kvim3l/kvim3l-vendor.mk)
+$(call inherit-product, vendor/cyx/a95xf3air/a95xf3air-vendor.mk)
