@@ -30,6 +30,15 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/Vendor_0001_Product_0001.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Vendor_0001_Product_0001.kl
 
 
+## OpenVFD
+# Lineage keeps Soong out of kernel/platform; OpenVFDService lives next to the
+# driver there, as on other OpenVFD boxes.
+PRODUCT_SOURCE_ROOT_DIRS += kernel/platform/kernel-5.15/vendor/amlogic/openvfd
+
+PRODUCT_PACKAGES += \
+    init.openvfd.rc \
+    OpenVFDService
+
 ## TEE
 TARGET_HAS_TEE := false
 

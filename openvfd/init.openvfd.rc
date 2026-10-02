@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+on boot
+    insmod /vendor/lib/modules/openvfd.ko
+    wait /dev/openvfd
+    chown system system /dev/openvfd
+    chmod 0660 /dev/openvfd
+    # Status icons, created after /dev/openvfd; the real path, as init
+    # does not follow symlinks
+    wait /sys/devices/platform/openvfd/leds/openvfd/led_off
+    chown system system /sys/devices/platform/openvfd/leds/openvfd/led_on
+    chown system system /sys/devices/platform/openvfd/leds/openvfd/led_off
+    start vendor.openvfd
+
+# Shows the clock and, like the stock firmware, the power icon and the
+# eth and wifi icons while the interface has a link. The driver only keeps
+# the display powered while /dev/openvfd is open, which the service does
+# for as long as it runs.
+service vendor.openvfd /vendor/bin/OpenVFDService -si
+    class late_start
+    user system
+    group system
+    disabled

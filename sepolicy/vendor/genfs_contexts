@@ -1,0 +1,2 @@
+# OpenVFD status icons (led_on, led_off), written by OpenVFDService
+genfscon sysfs /devices/platform/openvfd/leds/openvfd    u:object_r:sysfs_leds:s0
