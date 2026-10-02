@@ -25,6 +25,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/Vendor_0001_Product_0001.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Vendor_0001_Product_0001.kl
 
 
+## OpenVFD
+PRODUCT_PACKAGES += \
+    init.openvfd.rc \
+    openvfd_clock.sh
+
 ## TEE
 TARGET_HAS_TEE := false
 

@@ -6,5 +6,9 @@
   {
     "repository": "android_kernel_cyx_a95xf3air-build",
     "target_path": "kernel/platform/kernel-5.15/vendor/cyx/a95xf3air-build"
+  },
+  {
+    "repository": "MrArtemSid/android_hardware_amlogic_kernel-modules_openvfd",
+    "target_path": "kernel/platform/kernel-5.15/vendor/amlogic/openvfd"
   }
 ]

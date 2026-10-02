@@ -1,0 +1,1 @@
+genfscon sysfs /devices/platform/openvfd    u:object_r:sysfs_openvfd:s0

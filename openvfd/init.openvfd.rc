@@ -1,0 +1,18 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+on boot
+    # vfd_show_boot powers the display on; writes through sysfs do not
+    insmod /vendor/lib/modules/openvfd.ko vfd_show_boot=1
+    chown system system /sys/devices/platform/openvfd/leds/openvfd/text
+    chown system system /sys/devices/platform/openvfd/leds/openvfd/led_on
+    chown system system /sys/devices/platform/openvfd/leds/openvfd/led_off
+    start vendor.openvfd_clock
+
+service vendor.openvfd_clock /vendor/bin/openvfd_clock.sh
+    class late_start
+    user system
+    group system
+    disabled
