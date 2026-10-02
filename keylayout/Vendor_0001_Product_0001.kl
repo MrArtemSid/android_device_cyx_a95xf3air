@@ -62,7 +62,7 @@ key 212   CAMERA
 #key 38    L
 #key 39    SEMICOLON
 #key 40    APOSTROPHE
-#key 14    DEL
+key 14    DEL
 
 #key 44    Z
 #key 45    X
@@ -117,5 +117,19 @@ key 135   CAPTIONS
 key 136   MEDIA_AUDIO_TRACK
 #key 137   TV_SWITCH
 
+key 176   SETTINGS
+
 #special for deadpool
 key 218      PAIRING
+
+# A95X F3 Air remotes. The stock layout uses vendor key labels (APP_TV,
+# ALL_APP, APP_MEDIA, KODI, APP_TV_KODI, NETFLIX, YOUTUBE) that AOSP does
+# not know, so map them to standard ones; YouTube and Netflix follow the
+# Lineage ATV BUTTON_3/BUTTON_4 convention. There is no Kodi key code, so
+# 394 (KODI) and 395 (APP_TV_KODI) stay unmapped.
+key 390   TV
+key 392   ALL_APPS
+key 393   MUSIC
+key 396   BUTTON_4    WAKE
+key 397   BUTTON_3    WAKE
+key 398   PROG_RED
