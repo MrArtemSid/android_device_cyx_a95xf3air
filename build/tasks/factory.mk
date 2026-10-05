@@ -19,9 +19,16 @@ ifneq ($(filter a95xf3air,$(TARGET_DEVICE)),)
 LOCAL_PATH := device/cyx/a95xf3air
 FACTORY_PATH := device/cyx/a95xf3air/factory
 
-RADIO_FILES := $(wildcard $(FACTORY_PATH)/bootfiles/*)
+# Only misc belongs in target-files/OTA. The bootloader payloads below are
+# used to start the Amlogic burning environment and must never be OTA-flashed.
+RADIO_FILES := $(FACTORY_PATH)/bootfiles/misc.img
 $(foreach f, $(notdir $(RADIO_FILES)), \
     $(call add-radio-file,factory/bootfiles/$(f)))
+
+AML_FACTORY_BOOT_FILES := \
+    $(FACTORY_PATH)/bootfiles/DDR.USB \
+    $(FACTORY_PATH)/bootfiles/UBOOT.USB \
+    $(FACTORY_PATH)/bootfiles/aml_sdc_burn.UBOOT
 
 PRODUCT_INSTALL_OUT := $(PRODUCT_OUT)/aml_install
 PRODUCT_UPGRADE_OUT := $(PRODUCT_OUT)/aml_upgrade
@@ -81,13 +88,11 @@ define aml-copy-super-split-files
 	    $(ACP) $(AML_SUPER_SPLIT_OUT)/images/super_$(d).img $(1)/$(d).img &&) true
 endef
 
-$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(ACP) $(AML_IMAGE_TOOL)
+$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(AML_FACTORY_BOOT_FILES) $(ACP) $(AML_IMAGE_TOOL)
 	$(hide) mkdir -p $(PRODUCT_INSTALL_OUT)
-ifeq ($(WITH_CONSOLE_BL),true)
-	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/bootloader-console.img, u-boot.bin)
-else
-	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/bootloader.img, u-boot.bin)
-endif
+	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/DDR.USB)
+	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/UBOOT.USB)
+	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/aml_sdc_burn.UBOOT)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/logo.img)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/aml_sdc_burn.ini)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/image_install.cfg, image.cfg)
@@ -116,13 +121,11 @@ $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/aml_install_package.img: $(BUILT_TARGET_FIL
 
 INSTALLED_RADIOIMAGE_TARGET += $(INSTALLED_AML_INSTALL_PACKAGE_TARGET)
 
-$(INSTALLED_AML_UPGRADE_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(UPGRADE_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(ACP) $(AML_IMAGE_TOOL)
+$(INSTALLED_AML_UPGRADE_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(UPGRADE_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(AML_FACTORY_BOOT_FILES) $(ACP) $(AML_IMAGE_TOOL)
 	$(hide) mkdir -p $(PRODUCT_UPGRADE_OUT)
-ifeq ($(WITH_CONSOLE_BL),true)
-	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/bootloader-console.img, u-boot.bin)
-else
-	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/bootloader.img, u-boot.bin)
-endif
+	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/DDR.USB)
+	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/UBOOT.USB)
+	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/aml_sdc_burn.UBOOT)
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/logo.img)
 	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/aml_sdc_burn.ini)
 	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/image_upgrade.cfg, image.cfg)
