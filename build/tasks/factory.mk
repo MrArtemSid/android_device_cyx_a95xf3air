@@ -19,9 +19,25 @@ ifneq ($(filter a95xf3air,$(TARGET_DEVICE)),)
 LOCAL_PATH := device/cyx/a95xf3air
 FACTORY_PATH := device/cyx/a95xf3air/factory
 
-RADIO_FILES := $(wildcard $(FACTORY_PATH)/bootfiles/*)
+# Only misc belongs in target-files/OTA. The bootloader payloads below are
+# used to start the Amlogic burning environment and must never be OTA-flashed.
+RADIO_FILES := $(FACTORY_PATH)/bootfiles/misc.img
 $(foreach f, $(notdir $(RADIO_FILES)), \
     $(call add-radio-file,factory/bootfiles/$(f)))
+
+# The *_ENC loaders and the meson1 DTBs are the stock ones: the box has secure
+# boot, so the burning tool needs the signed loaders, and the stock U-Boot only
+# takes the signed DTB (with the stock partition table) for _aml_dtb. Linux
+# gets its DTB from boot.img/recovery.img.
+AML_FACTORY_BOOT_FILES := \
+    $(FACTORY_PATH)/bootfiles/DDR.USB \
+    $(FACTORY_PATH)/bootfiles/DDR_ENC.USB \
+    $(FACTORY_PATH)/bootfiles/UBOOT.USB \
+    $(FACTORY_PATH)/bootfiles/UBOOT_ENC.USB \
+    $(FACTORY_PATH)/bootfiles/aml_sdc_burn.UBOOT \
+    $(FACTORY_PATH)/bootfiles/aml_sdc_burn.UBOOT.ENC \
+    $(FACTORY_PATH)/bootfiles/meson1.dtb \
+    $(FACTORY_PATH)/bootfiles/meson1_ENC.dtb
 
 PRODUCT_INSTALL_OUT := $(PRODUCT_OUT)/aml_install
 PRODUCT_UPGRADE_OUT := $(PRODUCT_OUT)/aml_upgrade
@@ -81,20 +97,15 @@ define aml-copy-super-split-files
 	    $(ACP) $(AML_SUPER_SPLIT_OUT)/images/super_$(d).img $(1)/$(d).img &&) true
 endef
 
-$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(ACP) $(AML_IMAGE_TOOL)
+$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(AML_FACTORY_BOOT_FILES) $(ACP) $(AML_IMAGE_TOOL)
 	$(hide) mkdir -p $(PRODUCT_INSTALL_OUT)
-ifeq ($(WITH_CONSOLE_BL),true)
-	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/bootloader-console.img, u-boot.bin)
-else
-	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/bootloader.img, u-boot.bin)
-endif
+	$(hide) $(foreach f,$(AML_FACTORY_BOOT_FILES),$(ACP) $(f) $(PRODUCT_INSTALL_OUT)/ &&) true
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/logo.img)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/aml_sdc_burn.ini)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/image_install.cfg, image.cfg)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/platform.conf)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/boot.img)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/recovery.img)
-	$(hide) $(call aml-copy-install-file, $(INSTALLED_2NDBOOTLOADER_TARGET), dtb.img)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/dtbo.img)
 	$(call aml-copy-super-split-files,$(PRODUCT_INSTALL_OUT))
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/vbmeta.img)
@@ -116,20 +127,15 @@ $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/aml_install_package.img: $(BUILT_TARGET_FIL
 
 INSTALLED_RADIOIMAGE_TARGET += $(INSTALLED_AML_INSTALL_PACKAGE_TARGET)
 
-$(INSTALLED_AML_UPGRADE_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(UPGRADE_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(ACP) $(AML_IMAGE_TOOL)
+$(INSTALLED_AML_UPGRADE_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(UPGRADE_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(AML_FACTORY_BOOT_FILES) $(ACP) $(AML_IMAGE_TOOL)
 	$(hide) mkdir -p $(PRODUCT_UPGRADE_OUT)
-ifeq ($(WITH_CONSOLE_BL),true)
-	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/bootloader-console.img, u-boot.bin)
-else
-	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/bootfiles/bootloader.img, u-boot.bin)
-endif
+	$(hide) $(foreach f,$(AML_FACTORY_BOOT_FILES),$(ACP) $(f) $(PRODUCT_UPGRADE_OUT)/ &&) true
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/logo.img)
 	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/aml_sdc_burn.ini)
 	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/image_upgrade.cfg, image.cfg)
 	$(hide) $(call aml-copy-upgrade-file, $(FACTORY_PATH)/platform.conf)
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/boot.img)
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/recovery.img)
-	$(hide) $(call aml-copy-upgrade-file, $(INSTALLED_2NDBOOTLOADER_TARGET), dtb.img)
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/dtbo.img)
 	$(call aml-copy-super-split-files,$(PRODUCT_UPGRADE_OUT))
 	$(hide) $(call aml-copy-upgrade-file, $(PRODUCT_OUT)/vbmeta.img)
