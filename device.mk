@@ -16,6 +16,11 @@ $(call soong_config_set,brcm_libbt,custom_bt_config,//$(LOCAL_PATH):vnd_a95xf3ai
 PRODUCT_HOST_PACKAGES += \
     aml_image_packer
 
+## Graphics (Mali)
+PRODUCT_PACKAGES += \
+    libGLES_mali \
+    vendor_lib_hw_vulkan_amlogic_so
+
 ## Init-Files
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init-files/init.amlogic.wifi_buildin.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi_buildin.rc
