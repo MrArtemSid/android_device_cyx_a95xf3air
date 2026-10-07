@@ -16,6 +16,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_HOST_PACKAGES += \
     aml_image_packer
 
+## Graphics (Mali)
+PRODUCT_PACKAGES += \
+    libGLES_mali \
+    vendor_lib_hw_vulkan_amlogic_so
+
 ## Wi-Fi HAL (stock Amlogic multi-wifi, from the A95X F3 Air Android 9 vendor)
 PRODUCT_PACKAGES += \
     libwifi-hal-amlogic \

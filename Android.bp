@@ -54,3 +54,49 @@ cc_prebuilt_library_shared {
     check_elf_files: false,
     soc_specific: true,
 }
+
+cc_prebuilt_library_shared {
+    name: "libGLES_mali",
+    owner: "amlogic",
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: [
+                "proprietary/vendor/lib/egl/libGLES_mali.so",
+            ],
+            shared_libs: [
+                "android.hardware.graphics.allocator-V2-ndk",
+                "libbinder_ndk",
+                "libnativewindow",
+                "libutils",
+                "android.hardware.graphics.mapper@4.0",
+                "libgralloctypes",
+                "libhidlbase",
+                "liblog",
+                "libcutils",
+                "libhardware",
+                "android.hardware.graphics.common-V7-ndk",
+                "libbase",
+                "libdmabufheap",
+                "libz",
+                "libc++",
+                "libc",
+                "libm",
+                "libdl",
+            ],
+        },
+    },
+    compile_multilib: "32",
+    relative_install_path: "egl",
+    prefer: true,
+    soc_specific: true,
+}
+
+install_symlink {
+    name: "vendor_lib_hw_vulkan_amlogic_so",
+    soc_specific: true,
+    installed_location: "lib/hw/vulkan.amlogic.so",
+    symlink_target: "/vendor/lib/egl/libGLES_mali.so",
+}
