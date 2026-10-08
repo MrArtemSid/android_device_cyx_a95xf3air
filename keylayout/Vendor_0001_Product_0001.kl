@@ -133,3 +133,9 @@ key 393   MUSIC
 key 396   BUTTON_4    WAKE
 key 397   BUTTON_3    WAKE
 key 398   PROG_RED
+
+# TV keys of the A95X remote (scancodes 0xf1-0xf5). TV_POWER toggles the TV
+# over HDMI-CEC; their volume keys use the plain volume codes, which go to
+# the TV over CEC when HDMI-CEC volume control is on.
+key 356   TV_POWER
+key 241   TV_INPUT
