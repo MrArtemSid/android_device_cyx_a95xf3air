@@ -1,3 +1,17 @@
+#*********************************************************************************************************
+#this file is used to store key map table
+# custom_name:	  name of map table
+# custom_code:	  custom code for remote device
+# release_delay	  unit:ms.release will report from kernel to user layer after this period of time
+#			  from press or repeat triggered.
+###PARAS FOR MOUSE MODE:
+# fn_key_scancode: scancode of fn key which used to swith mode
+# cursor_left_scancode: scancode of left key
+# cursor_right_scancode:  scancode of right key
+# cursor_up_scancode: scancode of up key
+# cursor_down_scancode: scancode of down key
+# cursor_ok_scancode: scancode of ok key
+#************************************************************************************************************* 
 custom_name = cyxtech-remote-pp
 custom_code = 0x7f80
 release_delay = 80
@@ -8,17 +22,18 @@ cursor_right_scancode = 0x39
 cursor_up_scancode = 0x38
 cursor_down_scancode = 0x40
 cursor_ok_scancode = 0x13
+
 key_begin
-        0x83 139
-        0x87 115
-        0x89 114
-        0x73 102
-        0x39 106
-        0x37 105
-        0x38 103
-        0x40 108
-        0x13 232
-        0x27 158
-        0x81 116
-        0x48 69
+    0x89 114
+    0x87 115
+    0x37 105
+    0x38 103
+    0x39 106
+    0x40 108
+    0x13 97
+    0x27 158
+    0x73 102
+    0x81 116
+    0x83 139
+    0x48 388
 key_end
