@@ -1,1 +1,2 @@
 /vendor/bin/openvfd_clock\.sh    u:object_r:openvfd_clock_exec:s0
+/data/vendor/wifi/wid_fp    u:object_r:wifi_wid_fp_file:s0

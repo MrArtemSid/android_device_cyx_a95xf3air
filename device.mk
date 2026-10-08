@@ -16,9 +16,25 @@ $(call soong_config_set,brcm_libbt,custom_bt_config,//$(LOCAL_PATH):vnd_a95xf3ai
 PRODUCT_HOST_PACKAGES += \
     aml_image_packer
 
+## Wi-Fi HAL (stock Amlogic multi-wifi, from the A95X F3 Air Android 9 vendor)
+PRODUCT_PACKAGES += \
+    libwifi-hal-amlogic \
+    libwifi-hal-common-ext \
+    wifi_vendor_hal.xml
+
 ## Init-Files
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init-files/init.amlogic.wifi_buildin.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi_buildin.rc
+
+## Wi-Fi / Bluetooth (MT7668)
+# Firmware comes with the driver in kernel/.../vendor/mediatek/mt7668. The
+# driver reads its settings from wifi.cfg; use the stock tuning of this box
+# (BT coexistence, efuse calibration) instead of the generic one.
+MT7668_FIRMWARE_PATH := kernel/platform/kernel-5.15/vendor/mediatek/mt7668/firmware
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/proprietary/vendor/firmware/wifi_mt7668.cfg:$(TARGET_COPY_OUT_VENDOR)/lib/firmware/wifi.cfg \
+    $(filter-out %/lib/firmware/wifi.cfg,$(call find-copy-subdir-files,*,$(MT7668_FIRMWARE_PATH),$(TARGET_COPY_OUT_VENDOR)/lib/firmware))
 
 ## Keylayout (IR)
 PRODUCT_COPY_FILES += \

@@ -1,2 +1,15 @@
+on post-fs-data
+    # The stock multi-wifi HAL (libwifi-hal-common-ext.so) reads the chip
+    # name from wid_fp. It only writes it while loading the driver itself,
+    # which it skips because the module is already loaded here.
+    mkdir /data/vendor/wifi 0770 wifi wifi
+    write /data/vendor/wifi/wid_fp mtk7668s
+    chown wifi wifi /data/vendor/wifi/wid_fp
+    chmod 0660 /data/vendor/wifi/wid_fp
+    restorecon /data/vendor/wifi/wid_fp
+
 on boot
-    insmod /vendor/lib/modules/dhd.ko firmware_path=/wifi/ nvram_path=/wifi/
+    # Unlike dhd, the MT7668 driver does not use the Amlogic power hooks:
+    # power the SDIO chip up and rescan the bus before loading it.
+    write /sys/class/aml_wifi/power 1
+    insmod /vendor/lib/modules/wlan_mt76x8_sdio.ko

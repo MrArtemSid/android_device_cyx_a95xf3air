@@ -5,3 +5,52 @@
 //
 
 soong_namespace {}
+
+// Stock Amlogic multi-wifi HAL (Android 9), dlopen()ed by the Wi-Fi HAL
+// service through wifi/wifi_vendor_hal.xml. Installed under a different name,
+// so the AOSP fallback libwifi-hal stays in place.
+cc_prebuilt_library_shared {
+    name: "libwifi-hal-amlogic",
+    owner: "amlogic",
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/libwifi-hal.so"],
+            shared_libs: [
+                "libbase",
+                "libcutils",
+                "liblog",
+                "libnl",
+                "libutils",
+                "libc++",
+                "libc",
+                "libm",
+                "libdl",
+            ],
+        },
+    },
+    compile_multilib: "32",
+    check_elf_files: false,
+    soc_specific: true,
+}
+
+// Detects the chip (SDIO 037a:7608 -> mtk7668s) for libwifi-hal-amlogic.
+cc_prebuilt_library_shared {
+    name: "libwifi-hal-common-ext",
+    owner: "amlogic",
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/libwifi-hal-common-ext.so"],
+        },
+    },
+    // ifc_init/ifc_up come from the vendor variant of AOSP libnetutils.
+    shared_libs: ["libnetutils"],
+    compile_multilib: "32",
+    check_elf_files: false,
+    soc_specific: true,
+}

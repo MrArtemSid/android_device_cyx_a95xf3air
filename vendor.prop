@@ -18,4 +18,5 @@ vendor.media.support.dolbyvision=false
 ro.soc.model=AMLS905X3
 
 ## Wi-Fi
-vendor.wifi_name=bcm
+# Lets init.amlogic.wifi.rc pick p2p0 as the Wi-Fi Direct interface
+vendor.wifi_name=mtk

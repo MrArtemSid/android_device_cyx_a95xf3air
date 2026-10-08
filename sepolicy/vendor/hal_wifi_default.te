@@ -1,0 +1,3 @@
+# Stock multi-wifi HAL: chip name written by init.amlogic.wifi_buildin.rc
+allow hal_wifi_default vendor_data_file:dir search;
+allow hal_wifi_default wifi_wid_fp_file:file rw_file_perms;
