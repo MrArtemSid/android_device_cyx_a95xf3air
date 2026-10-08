@@ -5,12 +5,12 @@
 #
 
 ## Bluetooth
+# Read by the g12-common vendor makefile to skip the DroidLogic HIDL HAL.
+TARGET_USE_AIDL_BLUETOOTH_HAL := true
+
 PRODUCT_PACKAGES += \
     A95xf3airBluetoothOverlay \
-    libbt-vendor
-
-$(call soong_config_set,brcm_libbt,bdroid_buildcfg_include_dir,$(LOCAL_PATH)/bluetooth/include)
-$(call soong_config_set,brcm_libbt,custom_bt_config,//$(LOCAL_PATH):vnd_a95xf3air.txt)
+    android.hardware.bluetooth-service.default
 
 ## Factory
 PRODUCT_HOST_PACKAGES += \
@@ -66,8 +66,7 @@ TARGET_HAS_TEE := false
 
 ## Soong Namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH) \
-    hardware/broadcom/libbt
+    $(LOCAL_PATH)
 
 ## Inherit from the common tree product makefile
 $(call inherit-product, device/amlogic/g12-common/g12.mk)
