@@ -53,9 +53,13 @@ PRODUCT_COPY_FILES += \
 
 
 ## OpenVFD
+# Lineage keeps Soong out of kernel/platform; OpenVFDService lives next to the
+# driver there, as on other OpenVFD boxes.
+PRODUCT_SOURCE_ROOT_DIRS += kernel/platform/kernel-5.15/vendor/amlogic/openvfd
+
 PRODUCT_PACKAGES += \
     init.openvfd.rc \
-    openvfd_clock.sh
+    OpenVFDService
 
 ## Preinstalled apps
 # Removable apps from packages/apps/PreinstallApps, installed on first boot.

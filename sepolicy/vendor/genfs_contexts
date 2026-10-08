@@ -1,2 +1,1 @@
-genfscon sysfs /devices/platform/openvfd    u:object_r:sysfs_openvfd:s0
 genfscon sysfs /module/amlogic_wireless/parameters/btpower_evt    u:object_r:sysfs_bt_power:s0

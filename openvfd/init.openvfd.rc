@@ -4,14 +4,15 @@
 #
 
 on boot
-    # vfd_show_boot powers the display on; writes through sysfs do not
-    insmod /vendor/lib/modules/openvfd.ko vfd_show_boot=1
-    chown system system /sys/devices/platform/openvfd/leds/openvfd/text
-    chown system system /sys/devices/platform/openvfd/leds/openvfd/led_on
-    chown system system /sys/devices/platform/openvfd/leds/openvfd/led_off
-    start vendor.openvfd_clock
+    insmod /vendor/lib/modules/openvfd.ko
+    wait /dev/openvfd
+    chown system system /dev/openvfd
+    chmod 0660 /dev/openvfd
+    start vendor.openvfd
 
-service vendor.openvfd_clock /vendor/bin/openvfd_clock.sh
+# Shows the clock. The driver only keeps the display powered while
+# /dev/openvfd is open, which the service does for as long as it runs.
+service vendor.openvfd /vendor/bin/OpenVFDService
     class late_start
     user system
     group system

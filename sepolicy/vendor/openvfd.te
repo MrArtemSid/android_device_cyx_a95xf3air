@@ -1,0 +1,7 @@
+type openvfd, domain;
+type openvfd_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(openvfd)
+
+# Draw the clock on the front panel display
+allow openvfd openvfd_device:chr_file rw_file_perms;

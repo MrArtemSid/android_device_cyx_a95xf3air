@@ -9,9 +9,3 @@ prebuilt_etc {
     sub_dir: "init",
     vendor: true,
 }
-
-sh_binary {
-    name: "openvfd_clock.sh",
-    src: "openvfd_clock.sh",
-    vendor: true,
-}
