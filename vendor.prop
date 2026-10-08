@@ -5,6 +5,11 @@
 #
 
 ## Bluetooth
+# Let the DroidLogic HAL detect the MT7668 (SDIO) and load
+# libbt-vendor_mtk.so for it. Unlike the Amlogic Wi-Fi HAL, the stock one
+# does not publish the chip name, so set it here.
+ro.vendor.btmodule=multibt
+persist.vendor.wifibt_name=mtk7668s
 bluetooth.device.default_name=A95X F3 Air
 bluetooth.profile.hfp.ag.enabled=false
 bluetooth.profile.opp.enabled=false

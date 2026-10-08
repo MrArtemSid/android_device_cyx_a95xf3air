@@ -6,11 +6,11 @@
 
 ## Bluetooth
 # MediaTek stack as on the stock firmware: btmtksdio (vendor driver,
-# /dev/stpbt) with the DroidLogic HIDL HAL, which picks
-# libbt-vendor_mtkMulti.so for the MT7668.
+# /dev/stpbt) with the DroidLogic HIDL HAL, which loads libbt-vendor_mtk.so
+# for the MT7668.
 PRODUCT_PACKAGES += \
     A95xf3airBluetoothOverlay \
-    libbt-vendor_mtkMulti
+    libbt-vendor_mtk
 
 ## Factory
 PRODUCT_HOST_PACKAGES += \

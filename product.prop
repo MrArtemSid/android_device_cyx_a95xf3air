@@ -1,0 +1,9 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+## Bluetooth
+# Powering up the MT7668 through the MediaTek vendor library takes up to
+# ~4.5 s on a cold start, longer than the 3 s the stack waits by default.
+bluetooth.gd.start_timeout=10000

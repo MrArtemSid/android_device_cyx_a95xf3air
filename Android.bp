@@ -105,7 +105,7 @@ install_symlink {
 // Bluetooth HAL dlopen()s for the MT7668 (mtk7668s). It drives /dev/stpbt of
 // the vendor btmtksdio through libbluetooth_mtkbt.
 cc_prebuilt_library_shared {
-    name: "libbt-vendor_mtkMulti",
+    name: "libbt-vendor_mtk",
     owner: "mediatek",
     strip: {
         none: true,

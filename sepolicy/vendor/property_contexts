@@ -1,0 +1,7 @@
+# Bluetooth: chip detection results of the DroidLogic HAL, and the trigger
+# the MediaTek vendor library sets to have the driver loaded
+persist.vendor.bt_module        u:object_r:vendor_bluetooth_prop:s0
+persist.vendor.bt_name          u:object_r:vendor_bluetooth_prop:s0
+persist.vendor.libbt_vendor     u:object_r:vendor_bluetooth_prop:s0
+persist.vendor.wifibt_name      u:object_r:vendor_bluetooth_prop:s0
+vendor.sys.mtkbtdriver          u:object_r:vendor_bluetooth_prop:s0
