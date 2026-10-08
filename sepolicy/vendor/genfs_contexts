@@ -1,5 +1,8 @@
 genfscon sysfs /module/amlogic_wireless/parameters/btpower_evt    u:object_r:sysfs_bt_power:s0
 
+# OpenVFD status icons (led_on, led_off), written by OpenVFDService
+genfscon sysfs /devices/platform/openvfd/leds/openvfd    u:object_r:sysfs_leds:s0
+
 # eMMC, for init setting discard_max_bytes of userdata
 genfscon sysfs /devices/platform/ffe07000.emmc/mmc_host/mmc0/mmc0:0001/block/mmcblk0/queue/discard_max_bytes    u:object_r:sysfs_mmc_host:s0
 

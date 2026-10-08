@@ -5,3 +5,12 @@ init_daemon_domain(openvfd)
 
 # Draw the clock on the front panel display
 allow openvfd openvfd_device:chr_file rw_file_perms;
+
+# Set the status icons through /sys/class/leds/openvfd
+allow openvfd sysfs_leds:dir search;
+allow openvfd sysfs_leds:lnk_file read;
+allow openvfd sysfs_leds:file w_file_perms;
+
+# Check the eth and wifi links with getifaddrs(), which needs RTM_GETLINK
+# (nlmsg_readpriv) for the flags of the interfaces
+allow openvfd self:netlink_route_socket { create_socket_perms_no_ioctl nlmsg_read nlmsg_readpriv };
