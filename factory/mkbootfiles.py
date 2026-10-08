@@ -26,9 +26,11 @@ import sys
 RSV_UBOOT_OFFSET = 0x100000
 RSV_UBOOT_MAX = 0x200000
 
+# A USB stick, then an SD card (their aml_autoscript), then the rsv U-Boot.
 BOOTCMD = (
     'ddr_auto_fast_boot_check 6 0 0 50; '
     'if usb start 0; then run recovery_from_udisk; fi; '
+    'if mmcinfo; then run recovery_from_sdcard; fi; '
     'if store read rsv 0x1000000 0x100000 0x200000 && '
     'itest.l *0x1000000 == 0x1400000a; then '
     'echo "chainloading u-boot from rsv"; go 0x1000000; fi; '
