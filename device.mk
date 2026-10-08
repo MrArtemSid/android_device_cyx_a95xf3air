@@ -45,6 +45,14 @@ PRODUCT_PACKAGES += \
     init.openvfd.rc \
     OpenVFDService
 
+## Preinstalled apps
+# Removable apps from packages/apps/PreinstallApps, installed on first boot.
+# Build with WITH_PREINSTALL_APPS=true to include them.
+ifeq ($(WITH_PREINSTALL_APPS),true)
+PRODUCT_PACKAGES += \
+    preinstall_apps
+endif
+
 ## TEE
 TARGET_HAS_TEE := false
 
