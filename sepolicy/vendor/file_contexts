@@ -1,3 +1,4 @@
 /dev/openvfd    u:object_r:openvfd_device:s0
 /vendor/bin/OpenVFDService    u:object_r:openvfd_exec:s0
+/data/vendor/wifi/wid_fp    u:object_r:wifi_wid_fp_file:s0
 /dev/amremote0    u:object_r:input_device:s0
