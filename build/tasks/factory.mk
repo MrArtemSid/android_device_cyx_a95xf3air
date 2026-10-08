@@ -88,7 +88,28 @@ define aml-copy-super-split-files
 	    $(ACP) $(AML_SUPER_SPLIT_OUT)/images/super_$(d).img $(1)/$(d).img &&) true
 endef
 
-$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(AML_SUPER_SPLIT_IMAGES) $(AML_FACTORY_BOOT_FILES) $(ACP) $(AML_IMAGE_TOOL)
+# aml_install_package.img only carries what the box needs to start, as on
+# radxa0: empty dynamic partitions metadata instead of the system/vendor/odm/
+# product images, with misc booting it into recovery to install the build
+# with adb sideload. aml_upgrade_package.img carries the full images.
+AML_SUPER_EMPTY_OUT := $(call intermediates-dir-for,PACKAGING,aml_super_empty)
+AML_SUPER_EMPTY_IMAGE := $(AML_SUPER_EMPTY_OUT)/super_$(BOARD_SUPER_PARTITION_METADATA_DEVICE).img
+
+# Same layout as the split images above, with every logical partition empty.
+# Only the metadata device needs to be written for that.
+$(AML_SUPER_EMPTY_IMAGE): $(LPMAKE)
+	$(hide) rm -rf $(AML_SUPER_EMPTY_OUT)
+	$(hide) mkdir -p $(AML_SUPER_EMPTY_OUT)
+	$(LPMAKE) --metadata-size 65536 --metadata-slots 2 \
+	    --super-name $(BOARD_SUPER_PARTITION_METADATA_DEVICE) \
+	    $(foreach d,$(BOARD_SUPER_PARTITION_BLOCK_DEVICES), \
+	        --device $(d):$(BOARD_SUPER_PARTITION_$(call to-upper,$(d))_DEVICE_SIZE)) \
+	    $(foreach g,$(BOARD_SUPER_PARTITION_GROUPS), \
+	        --group $(g):$(BOARD_$(call to-upper,$(g))_SIZE) \
+	        $(foreach p,$(BOARD_$(call to-upper,$(g))_PARTITION_LIST),--partition $(p):none:0:$(g))) \
+	    --sparse --force-full-image --output $(AML_SUPER_EMPTY_OUT)
+
+$(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_IMAGES)) $(AML_SUPER_EMPTY_IMAGE) $(AML_FACTORY_BOOT_FILES) $(ACP) $(AML_IMAGE_TOOL)
 	$(hide) mkdir -p $(PRODUCT_INSTALL_OUT)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/DDR.USB)
 	$(hide) $(call aml-copy-install-file, $(FACTORY_PATH)/bootfiles/UBOOT.USB)
@@ -101,7 +122,7 @@ $(INSTALLED_AML_INSTALL_PACKAGE_TARGET): $(addprefix $(PRODUCT_OUT)/,$(INSTALL_I
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/recovery.img)
 	$(hide) $(call aml-copy-install-file, $(INSTALLED_2NDBOOTLOADER_TARGET), dtb.img)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/dtbo.img)
-	$(call aml-copy-super-split-files,$(PRODUCT_INSTALL_OUT))
+	$(hide) $(call aml-copy-install-file, $(AML_SUPER_EMPTY_IMAGE), $(BOARD_SUPER_PARTITION_METADATA_DEVICE).img)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/vbmeta.img)
 	$(hide) $(call aml-copy-install-file, $(PRODUCT_OUT)/misc.img)
 	$(hide) $(AML_IMAGE_TOOL) -r  $(PRODUCT_INSTALL_OUT)/image.cfg $(PRODUCT_INSTALL_OUT)/ $@
