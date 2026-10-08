@@ -5,12 +5,12 @@
 #
 
 ## Bluetooth
-# Read by the g12-common vendor makefile to skip the DroidLogic HIDL HAL.
-TARGET_USE_AIDL_BLUETOOTH_HAL := true
-
+# MediaTek stack as on the stock firmware: btmtksdio (vendor driver,
+# /dev/stpbt) with the DroidLogic HIDL HAL, which loads libbt-vendor_mtk.so
+# for the MT7668.
 PRODUCT_PACKAGES += \
     A95xf3airBluetoothOverlay \
-    android.hardware.bluetooth-service.default
+    libbt-vendor_mtk
 
 ## Factory
 PRODUCT_HOST_PACKAGES += \

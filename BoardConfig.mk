@@ -41,6 +41,7 @@ BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( \
     $(BOARD_SUPER_PARTITION_PRODUCT_DEVICE_SIZE))))
 
 ## Properties
+TARGET_PRODUCT_PROP += $(DEVICE_PATH)/product.prop
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 
 ## SELinux
@@ -56,9 +57,6 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 ## Include the common tree BoardConfig makefile
 include device/amlogic/g12-common/BoardConfigCommon.mk
-
-# Replace the legacy DroidLogic HIDL Bluetooth HAL with the standard AIDL HAL.
-DEVICE_MANIFEST_FILE := $(filter-out device/amlogic/g12-common/manifest_bt.xml,$(DEVICE_MANIFEST_FILE))
 
 ## Kernel
 # g12-common points TARGET_KERNEL_SOURCE at its 4.9 kernel, so set the

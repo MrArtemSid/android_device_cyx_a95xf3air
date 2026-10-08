@@ -100,3 +100,49 @@ install_symlink {
     installed_location: "lib/hw/vulkan.amlogic.so",
     symlink_target: "/vendor/lib/egl/libGLES_mali.so",
 }
+
+// Stock MediaTek Bluetooth vendor library (Android 9), the one the DroidLogic
+// Bluetooth HAL dlopen()s for the MT7668 (mtk7668s). It drives /dev/stpbt of
+// the vendor btmtksdio through libbluetooth_mtkbt.
+cc_prebuilt_library_shared {
+    name: "libbt-vendor_mtk",
+    owner: "mediatek",
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/libbt-vendor.so"],
+            shared_libs: [
+                "libbluetooth_mtkbt",
+                "libcutils",
+                "liblog",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "32",
+    check_elf_files: false,
+    soc_specific: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libbluetooth_mtkbt",
+    owner: "mediatek",
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/libbluetooth_mtkbt.so"],
+            shared_libs: [
+                "libcutils",
+                "liblog",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "32",
+    check_elf_files: false,
+    soc_specific: true,
+}

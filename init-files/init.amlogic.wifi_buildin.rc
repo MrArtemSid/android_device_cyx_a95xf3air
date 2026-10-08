@@ -13,10 +13,7 @@ on boot
     # power the SDIO chip up and rescan the bus before loading it.
     write /sys/class/aml_wifi/power 1
     insmod /vendor/lib/modules/wlan_mt76x8_sdio.ko
-    # BT shares the chip core with Wi-Fi: btmtksdio must start only after
-    # the Wi-Fi probe has finished (insmod above is synchronous), otherwise
-    # its WMT setup races the Wi-Fi patch download and both time out.
-    # insmod does not resolve dependencies, and bluetooth.ko lives on
-    # system_dlkm, which vendor_modprobe may not load from.
-    exec u:r:modprobe:s0 -- /system/bin/modprobe -a -d /system_dlkm/lib/modules bluetooth
+    # The vendor btmtksdio shares the chip core with Wi-Fi: load it only
+    # after the Wi-Fi probe (insmod above is synchronous) has downloaded the
+    # common patch, as the stock firmware does.
     insmod /vendor/lib/modules/btmtksdio.ko

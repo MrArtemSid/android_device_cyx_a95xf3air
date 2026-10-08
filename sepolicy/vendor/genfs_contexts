@@ -1,2 +1,4 @@
+genfscon sysfs /module/amlogic_wireless/parameters/btpower_evt    u:object_r:sysfs_bt_power:s0
+
 # OpenVFD status icons (led_on, led_off), written by OpenVFDService
 genfscon sysfs /devices/platform/openvfd/leds/openvfd    u:object_r:sysfs_leds:s0
