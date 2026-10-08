@@ -1,2 +1,5 @@
 type sysfs_openvfd, fs_type, sysfs_type;
 type wifi_wid_fp_file, file_type, data_file_type;
+type wifi_power_device, dev_type;
+type ree2aocpu_device, dev_type;
+type sysfs_bt_power, fs_type, sysfs_type;

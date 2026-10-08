@@ -1,0 +1,7 @@
+# DroidLogic Bluetooth HAL: Wi-Fi/BT power bits of the combo chip
+# (left alone for the MT7668, which powers both together)
+allow hal_bluetooth_default wifi_power_device:chr_file rw_file_perms;
+allow hal_bluetooth_default sysfs_bt_power:file w_file_perms;
+
+# Bluetooth wake-up configuration for the AOCPU
+allow hal_bluetooth_default ree2aocpu_device:chr_file rw_file_perms;

@@ -1,3 +1,5 @@
 /vendor/bin/openvfd_clock\.sh    u:object_r:openvfd_clock_exec:s0
 /data/vendor/wifi/wid_fp    u:object_r:wifi_wid_fp_file:s0
 /dev/amremote0    u:object_r:input_device:s0
+/dev/ree2aocpu    u:object_r:ree2aocpu_device:s0
+/dev/wifi_power    u:object_r:wifi_power_device:s0
