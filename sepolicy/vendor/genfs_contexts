@@ -1,8 +1,5 @@
 genfscon sysfs /module/amlogic_wireless/parameters/btpower_evt    u:object_r:sysfs_bt_power:s0
 
-# OpenVFD status icons (led_on, led_off), written by OpenVFDService
-genfscon sysfs /devices/platform/openvfd/leds/openvfd    u:object_r:sysfs_leds:s0
-
 # Wakeup sources of the board, read by system_suspend
 genfscon sysfs /devices/platform/ffe03000.sdio/mmc_host/mmc2/mmc2:0001/mmc2:0001:1/wakeup    u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/wifi/wakeup    u:object_r:sysfs_wakeup:s0
