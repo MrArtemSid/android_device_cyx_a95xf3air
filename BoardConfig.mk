@@ -43,13 +43,6 @@ BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( \
 ## Properties
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 
-## Recovery
-# Define the custom recovery UI static library
-TARGET_RECOVERY_UI_LIB := librecovery_ui_a95xf3air
-
-# Ensure the module is built alongside recovery
-TARGET_RECOVERY_DEVICE_MODULES += librecovery_ui_a95xf3air
-
 ## SELinux
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
