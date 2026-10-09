@@ -1,2 +1,0 @@
-# /dev/amremote is a symlink to the amremote0 node, see init.remote.a95xf3air.rc
-allow remotecfg input_device:lnk_file read;
