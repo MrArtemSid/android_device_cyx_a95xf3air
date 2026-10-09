@@ -23,6 +23,8 @@ cursor_up_scancode = 0x0b
 cursor_down_scancode = 0x0e
 cursor_ok_scancode = 0x0d
 
+# remotecfg passes the table with a header 4 bytes longer than the 5.15 IR
+# driver reads, which drops the last entry, so repeat the first one there.
 key_begin
     0x43 113
     0x1c 114
@@ -54,4 +56,5 @@ key_begin
     0x54 392
     0x53 393
     0x57 70
+    0x43 113
 key_end
