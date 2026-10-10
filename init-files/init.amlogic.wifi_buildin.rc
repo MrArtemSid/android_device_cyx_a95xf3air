@@ -1,2 +1,5 @@
 on boot
-    insmod /vendor/lib/modules/dhd.ko firmware_path=/wifi/ nvram_path=/wifi/
+    # Unlike dhd, the MT7668 driver does not use the Amlogic power hooks:
+    # power the SDIO chip up and rescan the bus before loading it.
+    write /sys/class/aml_wifi/power 1
+    insmod /vendor/lib/modules/wlan_mt76x8_sdio.ko

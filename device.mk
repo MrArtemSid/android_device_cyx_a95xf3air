@@ -25,6 +25,21 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init-files/init.amlogic.wifi_buildin.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi_buildin.rc
 
+## Wi-Fi (MT7668)
+# wlan_mt76x8_sdio is a cfg80211 driver: wpa_supplicant, hostapd and wificond
+# talk nl80211 to it directly, so there is no vendor Wi-Fi HAL.
+TARGET_HAVE_WIFIHAL := false
+
+# Firmware comes with the driver in kernel/.../vendor/mediatek/mt7668. The
+# driver reads its settings from wifi.cfg; use the tuning of the stock
+# firmware of this box (BT coexistence, efuse calibration) instead of the
+# generic one.
+MT7668_FIRMWARE_PATH := kernel/platform/kernel-5.15/vendor/mediatek/mt7668/firmware
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/wifi/wifi.cfg:$(TARGET_COPY_OUT_VENDOR)/lib/firmware/wifi.cfg \
+    $(filter-out %/lib/firmware/wifi.cfg,$(call find-copy-subdir-files,*,$(MT7668_FIRMWARE_PATH),$(TARGET_COPY_OUT_VENDOR)/lib/firmware))
+
 ## Keylayout (IR)
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/Vendor_0001_Product_0001.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Vendor_0001_Product_0001.kl
