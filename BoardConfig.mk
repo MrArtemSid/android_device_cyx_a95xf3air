@@ -50,6 +50,9 @@ BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 ## Include the common tree BoardConfig makefile
 include device/amlogic/g12-common/BoardConfigCommon.mk
 
+# Replace the legacy DroidLogic HIDL Bluetooth HAL with the standard AIDL HAL.
+DEVICE_MANIFEST_FILE := $(filter-out device/amlogic/g12-common/manifest_bt.xml,$(DEVICE_MANIFEST_FILE))
+
 ## Kernel
 # g12-common points TARGET_KERNEL_SOURCE at its 4.9 kernel, so set the
 # 5.15 platform build only after including it.
